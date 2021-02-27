@@ -1,6 +1,6 @@
 # covid19-lk-chart-app
 
-### see[Live Demo]('https://covidinfolk.netlify.app')
+### see[Live Demo](https://covidinfolk.netlify.app)
 
 ## Project setup
 ```
