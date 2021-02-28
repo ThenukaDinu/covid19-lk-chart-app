@@ -1,9 +1,9 @@
 <template>
   <div>
     <canvas
-      id="DailyPcrTestsLineChart"
-      height="400"
-      aria-label="Daily PCR Tests Line Chart"
+      id="lkcountspiechart"
+      height="350"
+      aria-label="LK Counts Pie Chart"
       role="img"
     >Your browser does not support the canvas element.</canvas>
   </div>
@@ -12,45 +12,26 @@
 <script>
 import Chart from "chart.js";
 export default {
-  name: "DailyPcrTestsLineChart",
+  name: "LKCountsPieChart",
   data() {
     return {
       labels: [],
       dataset: {
         label: "",
         data: [],
-        backgroundColor: "rgba(224, 248, 255, 0.4)",
-        borderColor: "#5cddff",
-        lineTension: 0,
-        pointBackgroundColor: "#5cddff"
+        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#28f3a9"]
       },
       chartOptions: {
-        scales: {
-          xAxes: [
-            {
-              stacked: true,
-              gridLines: { display: false }
-            }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                stepSize: 1000
-              }
-              // stacked: true
-            }
-          ]
-        },
         maintainAspectRatio: false,
         legend: {
           labels: {
-            boxWidth: 10
+            boxWidth: 25
           },
           position: "top"
         },
         animation: {
           duration: 2000,
-          easing: "easeInOutQuart"
+          easing: "easeInOutQuad"
         }
       }
     };
@@ -60,7 +41,7 @@ export default {
       type: String
     },
     chartData: {
-      type: Array
+      type: Object
     },
     chartType: {
       type: String
@@ -71,7 +52,7 @@ export default {
   },
   methods: {
     chartConstructor(chartType, chartData, chartOptions) {
-      const chartElement = document.querySelector("#DailyPcrTestsLineChart");
+      const chartElement = document.querySelector("#lkcountspiechart");
       new Chart(chartElement, {
         type: chartType,
         data: chartData,
@@ -79,18 +60,29 @@ export default {
       });
     },
     initiateChart() {
-      const dates = this.chartData
-        .slice(Math.max(this.chartData.length - 30, 0))
-        .map(d => d.date);
-      const totals = this.chartData
-        .slice(Math.max(this.chartData.length - 30, 0))
-        .map(d => d.count);
+      const countsArr = [
+        this.chartData.local_total_cases,
+        this.chartData.local_active_cases,
+        this.chartData.local_new_cases,
+        this.chartData.local_total_number_of_individuals_in_hospitals,
+        this.chartData.local_recovered,
+        this.chartData.local_deaths
+      ];
 
-      this.dataset.data = totals;
+      const labelsArr = [
+        "Total Confirmed Cases",
+        "Active Cases",
+        "Daily New Cases",
+        "Individuals currently under investigations in hospitals",
+        "Recovered & Discharged",
+        "Deaths"
+      ];
+
+      this.dataset.data = countsArr;
       this.dataset.label = this.label;
 
       const chartData = {
-        labels: dates,
+        labels: labelsArr,
         datasets: [this.dataset]
       };
 
@@ -99,5 +91,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

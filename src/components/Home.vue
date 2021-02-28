@@ -5,15 +5,15 @@
         <div>
           <h5>
             Last Updated:
-            <span class="text-info" v-if="apiData">{{
+            <span class="text-info" v-if="apiData">
+              {{
               moment(apiData.update_date_time).format('YYYY-MM-DD h:mm a')
-            }}</span>
+              }}
+            </span>
           </h5>
         </div>
         <div>
-          <b-form-checkbox switch size="lg" v-model="global"
-            >Local/Global</b-form-checkbox
-          >
+          <b-form-checkbox switch size="lg" v-model="global">Local/Global</b-form-checkbox>
         </div>
       </div>
       <div v-if="apiData">
@@ -24,52 +24,70 @@
         <text-skeleton />
       </div>
     </div>
-    <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
-      <div class="col">
-        <h2>Daily PCR Tests</h2>
-        <daily-pcr-tests-line-chart
-          :chartData="arrDailyPCRTests"
-          :label="'Daily PCR Tests'"
-          :chartType="'line'"
-        ></daily-pcr-tests-line-chart>
+    <div class="charts">
+      <div v-if="apiData" class="row my-5">
+        <div class="col-md-4 border">
+          <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
+          <LKCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></LKCountsPieChart>
+        </div>
+        <div class="col-md-4 border">
+          <h2>Test 2</h2>
+        </div>
+        <div class="col-md-4 border">
+          <h2>Test 3</h2>
+        </div>
       </div>
-    </div>
-    <div v-else>
-      <ChartSkeleton />
-    </div>
-    <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
-      <div class="col">
-        <h2>Daily PCR Tests</h2>
-        <daily-pcr-tests-bar-chart
-          :chartData="arrDailyPCRTests"
-          :label="'Daily PCR Tests'"
-          :chartType="'bar'"
-        ></daily-pcr-tests-bar-chart>
+      <div v-else>
+        <ChartSkeleton />
       </div>
-    </div>
-    <div v-else>
-      <ChartSkeleton />
+      <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
+        <div class="col">
+          <h3>Daily PCR Tests</h3>
+          <daily-pcr-tests-line-chart
+            :chartData="arrDailyPCRTests"
+            :label="'Daily PCR Tests'"
+            :chartType="'line'"
+          ></daily-pcr-tests-line-chart>
+        </div>
+      </div>
+      <div v-else>
+        <ChartSkeleton />
+      </div>
+      <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
+        <div class="col">
+          <h3>Daily PCR Tests</h3>
+          <daily-pcr-tests-bar-chart
+            :chartData="arrDailyPCRTests"
+            :label="'Daily PCR Tests'"
+            :chartType="'bar'"
+          ></daily-pcr-tests-bar-chart>
+        </div>
+      </div>
+      <div v-else>
+        <ChartSkeleton />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import covid19API from '../services/covid19API';
-import ChartSkeleton from '../components/ChartSkeleton';
-import TextSkeleton from '../components/TextSkeleton';
-import DailyPcrTestsLineChart from '../components/DailyPcrTestsLineChart';
-import DailyPcrTestsBarChart from '../components/DailyPcrTestsBarChart';
-import LocalTotalCounts from '../components/LocalTotalCounts';
-import GlobalTotalCounts from '../components/GlobalTotalCounts';
+import covid19API from "../services/covid19API";
+import ChartSkeleton from "../components/ChartSkeleton";
+import TextSkeleton from "../components/TextSkeleton";
+import DailyPcrTestsLineChart from "../components/DailyPcrTestsLineChart";
+import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
+import LocalTotalCounts from "../components/LocalTotalCounts";
+import GlobalTotalCounts from "../components/GlobalTotalCounts";
+import LKCountsPieChart from "../components/LKCountsPieChart";
 
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       apiData: null,
       arrDailyPCRTests: [],
       arrHospitalData: [],
-      global: false,
+      global: false
     };
   },
   components: {
@@ -79,6 +97,7 @@ export default {
     LocalTotalCounts,
     TextSkeleton,
     GlobalTotalCounts,
+    LKCountsPieChart
   },
   methods: {
     async fetchData() {
@@ -96,11 +115,11 @@ export default {
         this.apiData = null;
         console.log(error);
       }
-    },
+    }
   },
   created() {
     this.fetchData();
-  },
+  }
 };
 </script>
 

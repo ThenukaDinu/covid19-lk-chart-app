@@ -1,13 +1,18 @@
 <template>
   <div>
-    <canvas id="myChart2" height="400"></canvas>
+    <canvas
+      id="DailyPCRTestsBarChart"
+      height="400"
+      aria-label="Daily PCR Tests Bar Chart"
+      role="img"
+    >Your browser does not support the canvas element.</canvas>
   </div>
 </template>
 
 <script>
 import Chart from "chart.js";
 export default {
-  name: "TestChart",
+  name: "DailyPCRTestsBarChart",
   data() {
     return {
       labels: [],
@@ -63,7 +68,7 @@ export default {
   },
   methods: {
     chartConstructor(chartType, chartData, chartOptions) {
-      const chartElement = document.querySelector("#myChart2");
+      const chartElement = document.querySelector("#DailyPCRTestsBarChart");
       new Chart(chartElement, {
         type: chartType,
         data: chartData,
