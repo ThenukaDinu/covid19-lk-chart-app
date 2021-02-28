@@ -1,43 +1,54 @@
 <template>
   <div class="totals row">
     <div class="col text-center">
-      <i class="fas fa-info-circle"></i>
-      <h1>{{apiData.global_total_cases}}</h1>
+      <span class="text-primary">
+        <h1>
+          <i class="fa fa-globe"></i>
+        </h1>
+        <h1>{{ apiData.global_total_cases }}</h1>
+      </span>
       <p>Total Confirmed Cases</p>
     </div>
     <div class="col text-center">
-      <i class="fas fa-info-circle"></i>
-      <h1>{{apiData.global_new_cases}}</h1>
+      <span class="text-warning">
+        <h1>
+          <i class="fa fa-external-link-square"></i>
+        </h1>
+        <h1>{{ apiData.global_new_cases }}</h1>
+      </span>
       <p>Daily New Cases</p>
     </div>
     <div class="col text-center">
-      <i class="fas fa-info-circle"></i>
-      <h1>{{apiData.global_recovered}}</h1>
+      <span class="text-success">
+        <h1>
+          <i class="fa fa-heartbeat "></i>
+        </h1>
+        <h1>{{ apiData.global_recovered }}</h1>
+      </span>
       <p>Recovered</p>
     </div>
     <div class="col text-center">
-      <i class="fas fa-info-circle"></i>
-      <h1>{{apiData.global_deaths}}</h1>
+      <span class="text-danger">
+        <h1>
+          <i class="fa fa-bed"></i>
+        </h1>
+        <h1>{{ apiData.global_deaths }}</h1>
+      </span>
       <p>Deaths</p>
     </div>
-    <div class="col text-center">
-      <i class="fas fa-info-circle"></i>
-      <h1>{{apiData.global_new_deaths}}</h1>
-      <p>Daily New Deaths</p>
-    </div>
+    
   </div>
 </template>
 
 <script>
 export default {
-  name: "GlobalTotalCounts",
+  name: 'GlobalTotalCounts',
   props: {
     apiData: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

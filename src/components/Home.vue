@@ -63,7 +63,7 @@ export default {
   name: "Home",
   data() {
     return {
-      apiData: {},
+      apiData: null,
       arrDailyPCRTests: [],
       arrHospitalData: [],
       global: false
