@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" height="400"></canvas>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
           yAxes: [
             {
               ticks: {
-                stepSize: 20
+                stepSize: 1000
               }
               // stacked: true
             }
@@ -77,15 +77,11 @@ export default {
     },
     initiateChart() {
       const dates = this.chartData
-        .reverse()
-        .slice(0, 30)
-        .map(d => d.date)
-        .reverse();
+        .slice(Math.max(this.chartData.length - 30, 0))
+        .map(d => d.date);
       const totals = this.chartData
-        .reverse()
-        .slice(0, 30)
-        .map(d => d.count)
-        .reverse();
+        .slice(Math.max(this.chartData.length - 30, 0))
+        .map(d => d.count);
 
       this.dataset.data = totals;
       this.dataset.label = this.label;
