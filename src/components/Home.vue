@@ -25,16 +25,23 @@
       </div>
     </div>
     <div class="charts">
-      <div v-if="apiData" class="row my-5">
+      <div v-if="apiData" class="row mb-5 mt-1">
         <div class="col-md-4 border">
           <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
           <LKCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></LKCountsPieChart>
         </div>
         <div class="col-md-4 border">
-          <h2>Test 2</h2>
+          <h4 class="text-center mt-3 mb-2">Daily PCR Tests</h4>
+          <DailyRecoveriesLKBarchart
+            v-if="arrDailyPCRTests.length > 0"
+            :chartData="arrDailyPCRTests"
+            :label="'Daily PCR Tests'"
+            :chartType="'bar'"
+          ></DailyRecoveriesLKBarchart>
         </div>
         <div class="col-md-4 border">
-          <h2>Test 3</h2>
+          <h4 class="text-center mt-3 mb-2">Total Counts Global</h4>
+          <GlobalCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></GlobalCountsPieChart>
         </div>
       </div>
       <div v-else>
@@ -53,7 +60,7 @@
       <div v-else>
         <ChartSkeleton />
       </div>
-      <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
+      <!-- <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
         <div class="col">
           <h3>Daily PCR Tests</h3>
           <daily-pcr-tests-bar-chart
@@ -65,7 +72,7 @@
       </div>
       <div v-else>
         <ChartSkeleton />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -75,10 +82,12 @@ import covid19API from "../services/covid19API";
 import ChartSkeleton from "../components/ChartSkeleton";
 import TextSkeleton from "../components/TextSkeleton";
 import DailyPcrTestsLineChart from "../components/DailyPcrTestsLineChart";
-import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
+// import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
 import LocalTotalCounts from "../components/LocalTotalCounts";
 import GlobalTotalCounts from "../components/GlobalTotalCounts";
 import LKCountsPieChart from "../components/LKCountsPieChart";
+import GlobalCountsPieChart from "../components/GlobalCountsPieChart";
+import DailyRecoveriesLKBarchart from "../components/DailyRecoveriesLKBarchart";
 
 export default {
   name: "Home",
@@ -92,12 +101,14 @@ export default {
   },
   components: {
     DailyPcrTestsLineChart,
-    DailyPcrTestsBarChart,
+    // DailyPcrTestsBarChart,
     ChartSkeleton,
     LocalTotalCounts,
     TextSkeleton,
     GlobalTotalCounts,
-    LKCountsPieChart
+    LKCountsPieChart,
+    GlobalCountsPieChart,
+    DailyRecoveriesLKBarchart
   },
   methods: {
     async fetchData() {

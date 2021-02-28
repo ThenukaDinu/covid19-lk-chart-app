@@ -80,10 +80,10 @@ export default {
     },
     initiateChart() {
       const dates = this.chartData
-        .slice(Math.max(this.chartData.length - 30, 0))
+        .slice(Math.max(this.chartData.length - 31, 0))
         .map(d => d.date);
       const totals = this.chartData
-        .slice(Math.max(this.chartData.length - 30, 0))
+        .slice(Math.max(this.chartData.length - 31, 0))
         .map(d => d.count);
 
       this.dataset.data = totals;

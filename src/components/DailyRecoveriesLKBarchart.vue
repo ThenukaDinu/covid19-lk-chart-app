@@ -1,9 +1,9 @@
 <template>
   <div>
     <canvas
-      id="lkcountspiechart"
-      height="300"
-      aria-label="LK Counts Pie Chart"
+      id="DailyRecoveriesLKBarchart"
+      height="400"
+      aria-label="Daily Recoveries LKBar chart"
       role="img"
     >Your browser does not support the canvas element.</canvas>
   </div>
@@ -12,26 +12,42 @@
 <script>
 import Chart from "chart.js";
 export default {
-  name: "LKCountsPieChart",
+  name: "DailyRecoveriesLKBarchart",
   data() {
     return {
       labels: [],
       dataset: {
         label: "",
         data: [],
-        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#28f3a9"]
+        backgroundColor: "#8ed26d"
       },
       chartOptions: {
+        scales: {
+          xAxes: [
+            {
+              stacked: true,
+              gridLines: { display: false }
+            }
+          ],
+          yAxes: [
+            {
+              ticks: {
+                stepSize: 1000
+              }
+              // stacked: true
+            }
+          ]
+        },
         maintainAspectRatio: false,
         legend: {
           labels: {
-            boxWidth: 25
+            boxWidth: 10
           },
           position: "top"
         },
         animation: {
           duration: 2000,
-          easing: "easeInOutQuad"
+          easing: "easeInOutQuart"
         }
       }
     };
@@ -41,7 +57,7 @@ export default {
       type: String
     },
     chartData: {
-      type: Object
+      type: Array
     },
     chartType: {
       type: String
@@ -52,7 +68,7 @@ export default {
   },
   methods: {
     chartConstructor(chartType, chartData, chartOptions) {
-      const chartElement = document.querySelector("#lkcountspiechart");
+      const chartElement = document.querySelector("#DailyRecoveriesLKBarchart");
       new Chart(chartElement, {
         type: chartType,
         data: chartData,
@@ -60,29 +76,18 @@ export default {
       });
     },
     initiateChart() {
-      const countsArr = [
-        this.chartData.local_total_cases,
-        this.chartData.local_active_cases,
-        this.chartData.local_new_cases,
-        this.chartData.local_total_number_of_individuals_in_hospitals,
-        this.chartData.local_recovered,
-        this.chartData.local_deaths
-      ];
+      const dates = this.chartData
+        .slice(Math.max(this.chartData.length - 14, 0))
+        .map(d => d.date);
+      const totals = this.chartData
+        .slice(Math.max(this.chartData.length - 14, 0))
+        .map(d => d.count);
 
-      const labelsArr = [
-        "Total Confirmed Cases",
-        "Active Cases",
-        "Daily New Cases",
-        "Individuals currently under investigations in hospitals",
-        "Recovered & Discharged",
-        "Deaths"
-      ];
-
-      this.dataset.data = countsArr;
+      this.dataset.data = totals;
       this.dataset.label = this.label;
 
       const chartData = {
-        labels: labelsArr,
+        labels: dates,
         datasets: [this.dataset]
       };
 
@@ -91,3 +96,5 @@ export default {
   }
 };
 </script>
+
+<style></style>
