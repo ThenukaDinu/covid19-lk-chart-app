@@ -5,13 +5,15 @@
         <div>
           <h5>
             Last Updated:
-            <span
-              class="text-info"
-            >{{moment(apiData.update_date_time).format('YYYY-MM-DD h:mm a')}}</span>
+            <span class="text-info" v-if="apiData">{{
+              moment(apiData.update_date_time).format('YYYY-MM-DD h:mm a')
+            }}</span>
           </h5>
         </div>
         <div>
-          <b-form-checkbox switch size="lg" v-model="global">Local/Global</b-form-checkbox>
+          <b-form-checkbox switch size="lg" v-model="global"
+            >Local/Global</b-form-checkbox
+          >
         </div>
       </div>
       <div v-if="apiData">
@@ -52,21 +54,22 @@
 </template>
 
 <script>
-import covid19API from "../services/covid19API";
-import ChartSkeleton from "../components/ChartSkeleton";
-import TextSkeleton from "../components/TextSkeleton";
-import DailyPcrTestsLineChart from "../components/DailyPcrTestsLineChart";
-import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
-import LocalTotalCounts from "../components/LocalTotalCounts";
-import GlobalTotalCounts from "../components/GlobalTotalCounts";
+import covid19API from '../services/covid19API';
+import ChartSkeleton from '../components/ChartSkeleton';
+import TextSkeleton from '../components/TextSkeleton';
+import DailyPcrTestsLineChart from '../components/DailyPcrTestsLineChart';
+import DailyPcrTestsBarChart from '../components/DailyPcrTestsBarChart';
+import LocalTotalCounts from '../components/LocalTotalCounts';
+import GlobalTotalCounts from '../components/GlobalTotalCounts';
+
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {
       apiData: null,
       arrDailyPCRTests: [],
       arrHospitalData: [],
-      global: false
+      global: false,
     };
   },
   components: {
@@ -75,7 +78,7 @@ export default {
     ChartSkeleton,
     LocalTotalCounts,
     TextSkeleton,
-    GlobalTotalCounts
+    GlobalTotalCounts,
   },
   methods: {
     async fetchData() {
@@ -93,11 +96,11 @@ export default {
         this.apiData = null;
         console.log(error);
       }
-    }
+    },
   },
   created() {
     this.fetchData();
-  }
+  },
 };
 </script>
 

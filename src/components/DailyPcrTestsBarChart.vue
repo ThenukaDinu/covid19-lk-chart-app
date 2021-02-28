@@ -64,13 +64,11 @@ export default {
   methods: {
     chartConstructor(chartType, chartData, chartOptions) {
       const chartElement = document.querySelector("#myChart2");
-      const chart = new Chart(chartElement, {
+      new Chart(chartElement, {
         type: chartType,
         data: chartData,
         options: chartOptions
       });
-
-      console.log(chart);
     },
     initiateChart() {
       const dates = this.chartData
