@@ -24,7 +24,7 @@
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <!-- <b-navbar-nav class="ml-auto">
           <b-nav-form>
             <b-form-input
               size="sm"
@@ -40,7 +40,7 @@
             <b-dropdown-item href="#">EN</b-dropdown-item>
             <b-dropdown-item href="#">SI</b-dropdown-item>
           </b-nav-item-dropdown>
-        </b-navbar-nav>
+        </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
   </div>

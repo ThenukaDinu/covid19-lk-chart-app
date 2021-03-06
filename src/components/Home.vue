@@ -27,7 +27,7 @@
     <div class="charts">
       <div class="chatset my-5">
         <div v-if="apiData" class="row">
-          <div class="col-md-4 border py-3">
+          <div class="col-md-4 border p-3">
             <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
             <l-k-counts-pie-chart
               :chartData="apiData"
@@ -35,7 +35,7 @@
               :chartType="'pie'"
             ></l-k-counts-pie-chart>
           </div>
-          <div class="col-md-4 border py-3">
+          <div class="col-md-4 border p-3">
             <h4 class="text-center mt-3 mb-2">Daily PCR Tests</h4>
             <daily-recoveries-l-k-barchart
               v-if="arrDailyPCRTests.length > 0"
@@ -44,7 +44,7 @@
               :chartType="'bar'"
             ></daily-recoveries-l-k-barchart>
           </div>
-          <div class="col-md-4 border py-3">
+          <div class="col-md-4 border p-3">
             <h4 class="text-center mt-3 mb-2">Total Counts Global</h4>
             <global-counts-pie-chart
               :chartData="apiData"
@@ -61,7 +61,7 @@
       <div class="chartset">
         <div class="py-4">
           <div class="row">
-            <div class="col-md-6 border py-3">
+            <div class="col-md-6 border p-3">
               <h4 class="text-center mb-3">Confirmed vs Recovered</h4>
               <month-confirm-counts-chart
                 v-if="arrConfirmed.length > 0 && arrRecoverd.length > 0"
@@ -75,7 +75,7 @@
                 <ChartSkeleton />
               </div>
             </div>
-            <div class="col-md-6 border py-3">
+            <div class="col-md-6 border p-3">
               <h4 class="text-center mb-3">Confirmed vs Deaths</h4>
               <month-death-counts-chat
                 v-if="arrDeaths.length > 0 && arrConfirmed.length > 0"
@@ -94,7 +94,7 @@
       </div>
 
       <div class="chartset">
-        <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
+        <div class="row my-5 border py-3 px-2" v-if="arrDailyPCRTests.length > 0">
           <div class="col">
             <h3 class="text-center">Daily PCR Tests</h3>
             <daily-pcr-tests-line-chart
