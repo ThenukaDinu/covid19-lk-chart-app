@@ -20,13 +20,13 @@ export default {
       datasetCon: {
         label: "",
         data: [],
-        fill: true,
+        fill: false,
         backgroundColor: "#2b97cf"
       },
       datasetRec: {
         label: "",
         data: [],
-        fill: true,
+        fill: false,
         backgroundColor: "#62a741"
       },
       chartOptions: {
