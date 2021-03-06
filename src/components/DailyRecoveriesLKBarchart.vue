@@ -2,7 +2,7 @@
   <div>
     <canvas
       id="DailyRecoveriesLKBarchart"
-      height="400"
+      height="300"
       aria-label="Daily Recoveries LKBar chart"
       role="img"
     >Your browser does not support the canvas element.</canvas>
@@ -32,7 +32,7 @@ export default {
           yAxes: [
             {
               ticks: {
-                stepSize: 1000
+                 beginAtZero: true
               }
               // stacked: true
             }

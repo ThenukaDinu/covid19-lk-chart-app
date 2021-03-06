@@ -25,28 +25,32 @@
       </div>
     </div>
     <div class="charts">
-      <div class="chatset">
-        <div v-if="apiData" class="row mb-5 mt-1">
-          <div class="col-md-4 border">
+      <div class="chatset my-5">
+        <div v-if="apiData" class="row">
+          <div class="col-md-4 border py-3">
             <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
-            <LKCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></LKCountsPieChart>
+            <l-k-counts-pie-chart
+              :chartData="apiData"
+              :label="'SL Total Counts'"
+              :chartType="'pie'"
+            ></l-k-counts-pie-chart>
           </div>
-          <div class="col-md-4 border">
+          <div class="col-md-4 border py-3">
             <h4 class="text-center mt-3 mb-2">Daily PCR Tests</h4>
-            <DailyRecoveriesLKBarchart
+            <daily-recoveries-l-k-barchart
               v-if="arrDailyPCRTests.length > 0"
               :chartData="arrDailyPCRTests"
               :label="'Daily PCR Tests'"
               :chartType="'bar'"
-            ></DailyRecoveriesLKBarchart>
+            ></daily-recoveries-l-k-barchart>
           </div>
-          <div class="col-md-4 border">
+          <div class="col-md-4 border py-3">
             <h4 class="text-center mt-3 mb-2">Total Counts Global</h4>
-            <GlobalCountsPieChart
+            <global-counts-pie-chart
               :chartData="apiData"
               :label="'SL Total Counts'"
               :chartType="'pie'"
-            ></GlobalCountsPieChart>
+            ></global-counts-pie-chart>
           </div>
         </div>
         <div v-else>
@@ -55,46 +59,35 @@
       </div>
 
       <div class="chartset">
-        <div class="mb-3 mt-3">
-          <b-form class="row mb-4">
-            <div class="col-md-6">
-              <label class="font-weight-bold">From Date</label>
-              <b-form-datepicker
-                v-model="startDate"
-                class="mb-2"
-                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                menu-class="w-100"
-                calendar-width="100%"
-              ></b-form-datepicker>
-            </div>
-            <div class="col-md-6">
-              <label class="font-weight-bold">To Date</label>
-              <b-form-datepicker
-                v-model="endDate"
-                class="mb-2"
-                disabled
-                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                menu-class="w-100"
-                calendar-width="100%"
-              ></b-form-datepicker>
-            </div>
-          </b-form>
+        <div class="py-4">
           <div class="row">
-            <div class="col-md-6">
-              <MonthConfirmCountsChart
+            <div class="col-md-6 border py-3">
+              <h4 class="text-center mb-3">Confirmed vs Recovered</h4>
+              <month-confirm-counts-chart
                 v-if="arrConfirmed.length > 0 && arrRecoverd.length > 0"
-                :chartType="'line'"
+                :chartType="'bar'"
                 :arrRecoverd="arrRecoverd"
                 :arrConfirmed="arrConfirmed"
                 :label1="'Confirmed Cases LK'"
                 :label2="'Recovered Cases LK'"
-              ></MonthConfirmCountsChart>
+              ></month-confirm-counts-chart>
               <div v-else>
                 <ChartSkeleton />
               </div>
             </div>
-            <div class="col-md-6">
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni, blanditiis consequuntur! Nostrum corrupti enim sit, magnam optio animi eum repudiandae eos officia dolore laborum beatae quas suscipit minus dolor quidem, dicta ab consequuntur molestias, doloribus labore. Doloribus culpa, officia quia unde velit tempore ratione, perferendis numquam neque voluptates, quibusdam ipsam.</p>
+            <div class="col-md-6 border py-3">
+              <h4 class="text-center mb-3">Confirmed vs Deaths</h4>
+              <month-death-counts-chat
+                v-if="arrDeaths.length > 0 && arrConfirmed.length > 0"
+                :chartType="'line'"
+                :arrDeaths="arrDeaths"
+                :arrConfirmed="arrConfirmed"
+                :label1="'Confirmed Cases LK'"
+                :label2="'Death Cases LK'"
+              ></month-death-counts-chat>
+              <div v-else>
+                <ChartSkeleton />
+              </div>
             </div>
           </div>
         </div>
@@ -103,11 +96,11 @@
       <div class="chartset">
         <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
           <div class="col">
-            <h3>Daily PCR Tests</h3>
+            <h3 class="text-center">Daily PCR Tests</h3>
             <daily-pcr-tests-line-chart
               :chartData="arrDailyPCRTests"
               :label="'Daily PCR Tests'"
-              :chartType="'bar'"
+              :chartType="'line'"
             ></daily-pcr-tests-line-chart>
           </div>
         </div>
@@ -133,11 +126,11 @@
 </template>
 
 <script>
+// import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
 import covid19API from "../services/covid19API";
 import ChartSkeleton from "../components/ChartSkeleton";
 import TextSkeleton from "../components/TextSkeleton";
 import DailyPcrTestsLineChart from "../components/DailyPcrTestsLineChart";
-// import DailyPcrTestsBarChart from "../components/DailyPcrTestsBarChart";
 import LocalTotalCounts from "../components/LocalTotalCounts";
 import GlobalTotalCounts from "../components/GlobalTotalCounts";
 import LKCountsPieChart from "../components/LKCountsPieChart";
@@ -146,6 +139,7 @@ import DailyRecoveriesLKBarchart from "../components/DailyRecoveriesLKBarchart";
 import moment from "moment";
 import covid19API2 from "../services/Covid19API2";
 import MonthConfirmCountsChart from "../components/MonthConfirmCountsChart";
+import MonthDeathCountsChat from "../components/MonthDeathCountsChat";
 
 export default {
   name: "Home",
@@ -154,26 +148,23 @@ export default {
       apiData: null,
       arrRecoverd: [],
       arrConfirmed: [],
+      arrDeaths: [],
       arrDailyPCRTests: [],
       arrHospitalData: [],
-      global: false,
-      startDate: moment()
-        .add(-1, "months")
-        .format("yyyy-MM-DD"),
-      endDate: moment().format("yyyy-MM-DD")
+      global: false
     };
   },
   watch: {
     startDate(startDate) {
       this.endDate = moment(startDate)
-        .add(1, "months")
+        .add(2, "weeks")
         .format("yyyy-MM-DD");
       this.fetchAPI2();
     }
   },
   components: {
-    DailyPcrTestsLineChart,
     // DailyPcrTestsBarChart,
+    DailyPcrTestsLineChart,
     ChartSkeleton,
     LocalTotalCounts,
     TextSkeleton,
@@ -181,7 +172,8 @@ export default {
     LKCountsPieChart,
     GlobalCountsPieChart,
     DailyRecoveriesLKBarchart,
-    MonthConfirmCountsChart
+    MonthConfirmCountsChart,
+    MonthDeathCountsChat
   },
   methods: {
     async fetchAPI1() {
@@ -202,25 +194,45 @@ export default {
     },
     async fetchAPI2() {
       try {
-        const confirmed = await covid19API2.getConfirmedCases(
-          this.startDate,
-          this.endDate
-        );
-        confirmed.status === 200
-          ? (this.arrConfirmed = await confirmed.data)
-          : (this.arrConfirmed = null);
+        const response = await covid19API2.getLocalByDays(14);
+        const { cases, deaths, recovered } = await response.data.timeline;
+        if (response.status === 200) {
+          for (const key of Object.keys(cases)) {
+            let newObj = {
+              date: moment(key).format("yyyy-MM-DD"),
+              cases: cases[key]
+            };
+            this.arrConfirmed.push(newObj);
+          }
 
-        const recovered = await covid19API2.getRecoveredCases(
-          this.startDate,
-          this.endDate
-        );
-        recovered.status === 200
-          ? (this.arrRecoverd = await recovered.data)
-          : (this.arrRecoverd = null);
+          for (const key of Object.keys(deaths)) {
+            let newObj = {
+              date: moment(key).format("yyyy-MM-DD"),
+              cases: deaths[key]
+            };
+            this.arrDeaths.push(newObj);
+          }
+
+          for (const key of Object.keys(recovered)) {
+            let newObj = {
+              date: moment(key).format("yyyy-MM-DD"),
+              cases: recovered[key]
+            };
+            this.arrRecoverd.push(newObj);
+          }
+        } else {
+          this.emptyArrys();
+        }
       } catch (error) {
-        this.arrRecoverd = null;
         console.log(error);
+        this.emptyArrys();
       }
+    },
+
+    emptyArrys() {
+      this.arrRecoverd.length = 0;
+      this.arrDeaths.length = 0;
+      this.arrConfirmed.length = 0;
     }
   },
 

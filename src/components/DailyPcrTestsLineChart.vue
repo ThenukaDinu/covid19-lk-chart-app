@@ -21,30 +21,34 @@ export default {
         data: [],
         backgroundColor: "rgba(224, 248, 255, 0.4)",
         borderColor: "#5cddff",
-        lineTension: 0,
-        pointBackgroundColor: "#5cddff"
+        lineTension: 0.5,
+        pointBackgroundColor: "cyan",
+        pointStyle: "rectRounded",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+        pointHitRadius: 30,
+        pointBorderWidth: 2,
+        fill: true
       },
       chartOptions: {
         scales: {
           xAxes: [
             {
-              stacked: true,
               gridLines: { display: false }
             }
           ],
           yAxes: [
             {
               ticks: {
-                stepSize: 1000
+                beginAtZero: true
               }
-              // stacked: true
             }
           ]
         },
         maintainAspectRatio: false,
         legend: {
           labels: {
-            boxWidth: 10
+            boxWidth: 30
           },
           position: "top"
         },

@@ -1,9 +1,9 @@
 <template>
   <div>
     <canvas
-      id="MonthConfirmedBarChart"
+      id="MonthDeathBarChart"
       height="500"
-      aria-label="Month Confirmed Bar Chart"
+      aria-label="Month Death Bar Chart"
       role="img"
     >Your browser does not support the canvas element.</canvas>
   </div>
@@ -12,19 +12,37 @@
 <script>
 import Chart from "chart.js";
 export default {
-  name: "MonthConfirmedBarChart",
+  name: "MonthDeathBarChart",
   data() {
     return {
       labels: [],
       datasetCon: {
         label: "",
         data: [],
-        backgroundColor: "#2b97cf"
+        backgroundColor: "#58508d",
+        borderColor: "#58508d",
+        lineTension: 0.5,
+        pointBackgroundColor: "blue",
+        pointStyle: "rectRounded",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+        pointHitRadius: 30,
+        pointBorderWidth: 2,
+        fill: false
       },
-      datasetRec: {
+      datasetDeaths: {
         label: "",
         data: [],
-        backgroundColor: "#62a741"
+        backgroundColor: "#ff6361",
+        borderColor: "#ff6361",
+        lineTension: 0.5,
+        pointBackgroundColor: "red",
+        pointStyle: "rectRounded",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+        pointHitRadius: 30,
+        pointBorderWidth: 2,
+        fill: false
       },
       chartOptions: {
         responsive: true,
@@ -38,6 +56,7 @@ export default {
             {
               ticks: {
                 beginAtZero: true
+                // stepSize: 1
               }
             }
           ]
@@ -63,7 +82,7 @@ export default {
     label2: {
       type: String
     },
-    arrRecoverd: {
+    arrDeaths: {
       type: Array
     },
     arrConfirmed: {
@@ -78,7 +97,7 @@ export default {
   },
   methods: {
     chartConstructor(chartType, chartData, chartOptions) {
-      const chartElement = document.querySelector("#MonthConfirmedBarChart");
+      const chartElement = document.querySelector("#MonthDeathBarChart");
       new Chart(chartElement, {
         type: chartType,
         data: chartData,
@@ -91,16 +110,17 @@ export default {
       this.datasetCon.data = await casesCon;
       this.datasetCon.label = await this.label1;
 
-      const casesRec = await this.arrRecoverd.map(d => d.cases);
-      this.datasetRec.data = await casesRec;
-      this.datasetRec.label = await this.label2;
+      const casesDeath = await this.arrDeaths.map(d => d.cases);
+      this.datasetDeaths.data = await casesDeath;
+      this.datasetDeaths.label = await this.label2;
 
-      const chartData = await {
+      const chartData = {
         labels: datesCon,
-        datasets: [this.datasetCon, this.datasetRec]
+        datasets: [this.datasetCon, this.datasetDeaths]
       };
 
       this.chartConstructor(this.chartType, chartData, this.chartOptions);
+      //   console.log(this.arrDeaths, this.arrConfirmed);
     }
   },
   watch: {
