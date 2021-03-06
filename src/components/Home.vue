@@ -107,7 +107,7 @@
             <daily-pcr-tests-line-chart
               :chartData="arrDailyPCRTests"
               :label="'Daily PCR Tests'"
-              :chartType="'line'"
+              :chartType="'bar'"
             ></daily-pcr-tests-line-chart>
           </div>
         </div>
@@ -169,7 +169,7 @@ export default {
         .add(1, "months")
         .format("yyyy-MM-DD");
       this.fetchAPI2();
-    },
+    }
   },
   components: {
     DailyPcrTestsLineChart,
@@ -220,9 +220,6 @@ export default {
       } catch (error) {
         this.arrRecoverd = null;
         console.log(error);
-        setTimeout(() => {
-          this.fetchAPI2()
-        }, 10000);
       }
     }
   },

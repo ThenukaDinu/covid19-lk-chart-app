@@ -20,19 +20,21 @@ export default {
       datasetCon: {
         label: "",
         data: [],
-        backgroundColor: "#8ed26d"
+        fill: true,
+        backgroundColor: "#2b97cf"
       },
       datasetRec: {
         label: "",
         data: [],
-        backgroundColor: "#4fa2cd"
+        fill: true,
+        backgroundColor: "#62a741"
       },
       chartOptions: {
         scales: {
           xAxes: [
             {
               stacked: true,
-              gridLines: { display: true }
+              gridLines: { display: false }
             }
           ],
           yAxes: [
@@ -46,11 +48,10 @@ export default {
         maintainAspectRatio: false,
         legend: {
           labels: {
-            boxWidth: 10
+            boxWidth: 40
           },
           position: "top"
         },
-        fill: false,
         animation: {
           duration: 2000,
           easing: "easeInOutQuart"
