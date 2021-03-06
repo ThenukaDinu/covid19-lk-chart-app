@@ -25,40 +25,95 @@
       </div>
     </div>
     <div class="charts">
-      <div v-if="apiData" class="row mb-5 mt-1">
-        <div class="col-md-4 border">
-          <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
-          <LKCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></LKCountsPieChart>
+      <div class="chatset">
+        <div v-if="apiData" class="row mb-5 mt-1">
+          <div class="col-md-4 border">
+            <h4 class="text-center mt-3 mb-2">Total Counts LK</h4>
+            <LKCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></LKCountsPieChart>
+          </div>
+          <div class="col-md-4 border">
+            <h4 class="text-center mt-3 mb-2">Daily PCR Tests</h4>
+            <DailyRecoveriesLKBarchart
+              v-if="arrDailyPCRTests.length > 0"
+              :chartData="arrDailyPCRTests"
+              :label="'Daily PCR Tests'"
+              :chartType="'bar'"
+            ></DailyRecoveriesLKBarchart>
+          </div>
+          <div class="col-md-4 border">
+            <h4 class="text-center mt-3 mb-2">Total Counts Global</h4>
+            <GlobalCountsPieChart
+              :chartData="apiData"
+              :label="'SL Total Counts'"
+              :chartType="'pie'"
+            ></GlobalCountsPieChart>
+          </div>
         </div>
-        <div class="col-md-4 border">
-          <h4 class="text-center mt-3 mb-2">Daily PCR Tests</h4>
-          <DailyRecoveriesLKBarchart
-            v-if="arrDailyPCRTests.length > 0"
-            :chartData="arrDailyPCRTests"
-            :label="'Daily PCR Tests'"
-            :chartType="'bar'"
-          ></DailyRecoveriesLKBarchart>
-        </div>
-        <div class="col-md-4 border">
-          <h4 class="text-center mt-3 mb-2">Total Counts Global</h4>
-          <GlobalCountsPieChart :chartData="apiData" :label="'SL Total Counts'" :chartType="'pie'"></GlobalCountsPieChart>
-        </div>
-      </div>
-      <div v-else>
-        <ChartSkeleton />
-      </div>
-      <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
-        <div class="col">
-          <h3>Daily PCR Tests</h3>
-          <daily-pcr-tests-line-chart
-            :chartData="arrDailyPCRTests"
-            :label="'Daily PCR Tests'"
-            :chartType="'line'"
-          ></daily-pcr-tests-line-chart>
+        <div v-else>
+          <ChartSkeleton />
         </div>
       </div>
-      <div v-else>
-        <ChartSkeleton />
+
+      <div class="chartset">
+        <div class="mb-3 mt-3">
+          <b-form class="row mb-4">
+            <div class="col-md-6">
+              <label class="font-weight-bold">From Date</label>
+              <b-form-datepicker
+                v-model="startDate"
+                class="mb-2"
+                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
+                menu-class="w-100"
+                calendar-width="100%"
+              ></b-form-datepicker>
+            </div>
+            <div class="col-md-6">
+              <label class="font-weight-bold">To Date</label>
+              <b-form-datepicker
+                v-model="endDate"
+                class="mb-2"
+                disabled
+                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
+                menu-class="w-100"
+                calendar-width="100%"
+              ></b-form-datepicker>
+            </div>
+          </b-form>
+          <div class="row">
+            <div class="col-md-6">
+              <MonthConfirmCountsChart
+                v-if="arrConfirmed.length > 0 && arrRecoverd.length > 0"
+                :chartType="'line'"
+                :arrRecoverd="arrRecoverd"
+                :arrConfirmed="arrConfirmed"
+                :label1="'Confirmed Cases LK'"
+                :label2="'Recovered Cases LK'"
+              ></MonthConfirmCountsChart>
+              <div v-else>
+                <ChartSkeleton />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni, blanditiis consequuntur! Nostrum corrupti enim sit, magnam optio animi eum repudiandae eos officia dolore laborum beatae quas suscipit minus dolor quidem, dicta ab consequuntur molestias, doloribus labore. Doloribus culpa, officia quia unde velit tempore ratione, perferendis numquam neque voluptates, quibusdam ipsam.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chartset">
+        <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
+          <div class="col">
+            <h3>Daily PCR Tests</h3>
+            <daily-pcr-tests-line-chart
+              :chartData="arrDailyPCRTests"
+              :label="'Daily PCR Tests'"
+              :chartType="'line'"
+            ></daily-pcr-tests-line-chart>
+          </div>
+        </div>
+        <div v-else>
+          <ChartSkeleton />
+        </div>
       </div>
       <!-- <div class="row my-5" v-if="arrDailyPCRTests.length > 0">
         <div class="col">
@@ -72,7 +127,7 @@
       </div>
       <div v-else>
         <ChartSkeleton />
-      </div> -->
+      </div>-->
     </div>
   </div>
 </template>
@@ -88,16 +143,33 @@ import GlobalTotalCounts from "../components/GlobalTotalCounts";
 import LKCountsPieChart from "../components/LKCountsPieChart";
 import GlobalCountsPieChart from "../components/GlobalCountsPieChart";
 import DailyRecoveriesLKBarchart from "../components/DailyRecoveriesLKBarchart";
+import moment from "moment";
+import covid19API2 from "../services/Covid19API2";
+import MonthConfirmCountsChart from "../components/MonthConfirmCountsChart";
 
 export default {
   name: "Home",
   data() {
     return {
       apiData: null,
+      arrRecoverd: [],
+      arrConfirmed: [],
       arrDailyPCRTests: [],
       arrHospitalData: [],
-      global: false
+      global: false,
+      startDate: moment()
+        .add(-1, "months")
+        .format("yyyy-MM-DD"),
+      endDate: moment().format("yyyy-MM-DD")
     };
+  },
+  watch: {
+    startDate(startDate) {
+      this.endDate = moment(startDate)
+        .add(1, "months")
+        .format("yyyy-MM-DD");
+      this.fetchAPI2();
+    },
   },
   components: {
     DailyPcrTestsLineChart,
@@ -108,10 +180,11 @@ export default {
     GlobalTotalCounts,
     LKCountsPieChart,
     GlobalCountsPieChart,
-    DailyRecoveriesLKBarchart
+    DailyRecoveriesLKBarchart,
+    MonthConfirmCountsChart
   },
   methods: {
-    async fetchData() {
+    async fetchAPI1() {
       try {
         const { data } = await covid19API.getCovid19Data();
         const { daily_pcr_testing_data, hospital_data } = await data.data;
@@ -126,10 +199,37 @@ export default {
         this.apiData = null;
         console.log(error);
       }
+    },
+    async fetchAPI2() {
+      try {
+        const confirmed = await covid19API2.getConfirmedCases(
+          this.startDate,
+          this.endDate
+        );
+        confirmed.status === 200
+          ? (this.arrConfirmed = await confirmed.data)
+          : (this.arrConfirmed = null);
+
+        const recovered = await covid19API2.getRecoveredCases(
+          this.startDate,
+          this.endDate
+        );
+        recovered.status === 200
+          ? (this.arrRecoverd = await recovered.data)
+          : (this.arrRecoverd = null);
+      } catch (error) {
+        this.arrRecoverd = null;
+        console.log(error);
+        setTimeout(() => {
+          this.fetchAPI2()
+        }, 10000);
+      }
     }
   },
+
   created() {
-    this.fetchData();
+    this.fetchAPI1();
+    this.fetchAPI2();
   }
 };
 </script>
